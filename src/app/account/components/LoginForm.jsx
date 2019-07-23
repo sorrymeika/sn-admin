@@ -8,15 +8,16 @@ class LoginForm extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', values);
             }
+            this.props.onSubmit(values);
         });
     };
 
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form onSubmit={this.handleSubmit} className="login-form">
+            <Form onSubmit={this.handleSubmit} className="ac_login_form">
                 <Form.Item>
-                    {getFieldDecorator('username', {
+                    {getFieldDecorator('account', {
                         rules: [{ required: true, message: '请输入用户名!' }],
                     })(
                         <Input
