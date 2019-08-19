@@ -1,15 +1,15 @@
 import React from 'react';
-import { inject } from 'snowball/app';
 import { LoginForm } from '../components/LoginForm';
 
 function SignIn({ signInService }) {
     return (
         <LoginForm
-            onSubmit={
-                (data) => signInService.signIn(data)
+            onSubmit={signInService.onSignIn.emit}
+            onTest={
+                () => alert(1)
             }
         ></LoginForm>
     );
 }
 
-export default inject('signInService')(SignIn);
+export default SignIn;

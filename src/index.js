@@ -1,13 +1,20 @@
 import { createApplication } from "snowball/app";
 import "./sass/style.scss";
 import router from "./app/router";
-import { Server } from "./utils/Server";
+import { Server } from "sn-cornerstone";
+import { renderFrame } from "./app/frame/renderFrame";
+
 
 const projects = {
 };
 
-const server = new Server({
-    baseUri: 'http://127.0.0.1:7001'
+const authServer = new Server({
+    baseUri: '/auth_server'
+});
+
+const frame = renderFrame({
+    header: document.getElementById('header'),
+    menu: document.getElementById('menu')
 });
 
 createApplication({
@@ -16,12 +23,16 @@ createApplication({
     autoStart: true,
     extend() {
         return {
-            server
+            authServer,
+            frame
         };
     },
     options: {
         disableTransition: true
     }
 }, document.getElementById('root'), () => {
+    if (!(/^(#)?\/sign-in/.test(location.hash))) {
+        frame.show();
+    }
     console.log('application start!');
 });

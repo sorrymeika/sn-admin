@@ -1,16 +1,28 @@
+import { Service } from "snowball/app";
+import { message } from "antd";
 
-class SignInService {
-    constructor({ accountService }) {
-        this.accountService = accountService;
+class SignInService extends Service {
+    onSignIn = this.ctx.createEvent();
+
+    constructor({ authService }) {
+        super();
+
+        this.authService = authService;
+        this.onSignIn((data) => this.signIn(data));
     }
 
     async signIn({ account, password }) {
-        const res = await this.accountService.signIn({
-            account,
-            password,
-            role: 1
-        });
-        console.log(res);
+        try {
+            const res = await this.authService.signIn({
+                account,
+                password,
+                app: 1
+            });
+            this.authService.storeAccountId(res.accountId);
+            this.ctx.navigation.replace('/');
+        } catch (e) {
+            message.error(e.message || '网络异常');
+        }
     }
 }
 

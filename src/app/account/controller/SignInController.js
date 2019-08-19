@@ -1,5 +1,5 @@
 import { controller, injectable } from 'snowball/app';
-import { AccountService } from '../../../domain/services/AccountService';
+import { AuthService } from '../../../domain/services/AuthService';
 import { SignInService } from '../services/SignInService';
 import SignIn from '../containers/SignIn';
 
@@ -8,11 +8,19 @@ class SignInController {
     @injectable signInService;
 
     constructor() {
-        const accountService = new AccountService();
+        const authService = new AuthService();
 
         this.signInService = new SignInService({
-            accountService
+            authService
         });
+    }
+
+    onInit() {
+        this.ctx.frame.hide();
+    }
+
+    onDestroy() {
+        this.ctx.frame.show();
     }
 }
 

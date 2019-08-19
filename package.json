@@ -1,6 +1,6 @@
 {
-  "name": "nuclear",
-  "version": "0.1.0",
+  "name": "sn-admin",
+  "version": "0.0.1",
   "private": true,
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.4.4",
@@ -68,7 +68,6 @@
   "dependencies": {},
   "scripts": {
     "start": "node scripts/start.js",
-    "project": "node scripts/project.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },

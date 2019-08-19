@@ -38,7 +38,7 @@ class LoginForm extends React.Component {
                     )}
                 </Form.Item>
                 <div className="mt_m">
-                    <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
+                    <Button type="primary" htmlType="submit" className="ac_login_form_btn">登录</Button>
                 </div>
             </Form>
         );

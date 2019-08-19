@@ -23,6 +23,7 @@ const ln = (packageName) => {
 };
 ln('snowball');
 ln('nuclear');
+ln('sn-cornerstone');
 
 const chalk = require('react-dev-utils/chalk');
 const webpack = require('webpack');
