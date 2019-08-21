@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Menu, Icon } from 'antd';
-import { $ } from 'snowball';
 
 const { SubMenu } = Menu;
 
@@ -14,16 +13,45 @@ const MENU_LIST = [{
         url: '/sign-in'
     }]
 }, {
+    name: '页面中心',
+    icon: 'file-text',
+    children: [{
+        code: 10011000,
+        name: '模板管理',
+        url: '/pagecenter/templates'
+    }, {
+        code: 10011001,
+        name: '首页装修',
+        url: '/pagecenter/home',
+        target: '_blank'
+    }]
+}, {
     name: '商品中心',
     icon: 'shopping',
     children: [{
         code: 10001000,
         name: '商品管理',
-        url: '/test'
+        url: '/trade/spu'
     }, {
-        code: 10001001,
+        code: 10001005,
         name: '添加商品',
         url: '/'
+    }]
+}, {
+    name: '促销中心',
+    icon: 'profile',
+    children: [{
+        code: 10031000,
+        name: '优惠券管理',
+        url: '/sale/coupon'
+    }]
+}, {
+    name: '订单中心',
+    icon: 'profile',
+    children: [{
+        code: 10061000,
+        name: '订单管理',
+        url: '/test'
     }]
 }];
 
@@ -38,7 +66,13 @@ class Sider extends React.Component {
             current: menu.code + '',
         });
         if (menu.url) {
-            location.hash = menu.url;
+            if (menu.target) {
+                window.open(/^https?:\/\//.test(menu.url)
+                    ? menu.url
+                    : ('?frame=0#' + menu.url), menu.target);
+            } else {
+                location.hash = menu.url;
+            }
         }
     };
 
@@ -50,7 +84,7 @@ class Sider extends React.Component {
                     <Menu
                         theme={this.state.theme}
                         style={{ width: '100%', height: '100%', overflow: 'auto' }}
-                        defaultOpenKeys={['通知中心']}
+                        defaultOpenKeys={['通知中心', '页面中心']}
                         selectedKeys={[this.state.current]}
                         mode="inline"
                     >

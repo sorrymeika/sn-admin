@@ -3,9 +3,8 @@ import Home from "../containers/Home";
 
 @controller(Home)
 class HomeController {
-    constructor({ location }, context) {
-        console.log(location);
-    }
+    // constructor({ location }, context) {
+    // }
 
     onInit() {
         // fetch remote data here!
