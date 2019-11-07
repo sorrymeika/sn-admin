@@ -29,17 +29,29 @@ const MENU_LIST = [{
     name: '商品中心',
     icon: 'shopping',
     children: [{
+        code: 10001010,
+        name: '系统类目管理',
+        url: '/trade/category'
+    }, {
+        code: 10001011,
+        name: '新增商品',
+        url: '/trade/spu/add'
+    }, {
         code: 10001000,
         name: '商品管理',
         url: '/trade/spu'
     }, {
-        code: 10001005,
-        name: '添加商品',
-        url: '/'
+        code: 10001020,
+        name: '品牌管理',
+        url: '/trade/brand'
+    }, {
+        code: 10001030,
+        name: '前台类目管理',
+        url: '/trade/fdcategory'
     }]
 }, {
     name: '促销中心',
-    icon: 'profile',
+    icon: 'gift',
     children: [{
         code: 10031000,
         name: '优惠券管理',
@@ -51,15 +63,56 @@ const MENU_LIST = [{
     children: [{
         code: 10061000,
         name: '订单管理',
-        url: '/test'
+        url: '/trade/orderlist'
+    }]
+}, {
+    name: '商户中心',
+    icon: 'shop',
+    children: [{
+        code: 10091010,
+        name: '商户管理',
+        url: '/seller/list'
+    }, {
+        code: 10091020,
+        name: 'O2O门店管理',
+        url: '/seller/o2o-shops'
+    }]
+}, {
+    name: '库存中心',
+    icon: 'inbox',
+    children: [{
+        code: 10031000,
+        name: '仓库管理',
+        url: '/trade/warehouse'
+    }, {
+        code: 10031010,
+        name: '库存管理',
+        url: '/trade/stock'
     }]
 }];
 
 class Sider extends React.Component {
     state = {
         theme: 'dark',
-        menus: MENU_LIST
+        menus: MENU_LIST,
+        current: 'home'
     };
+
+    componentDidMount() {
+        const url = location.hash.replace(/^#*|\?.+/g, '');
+
+        for (let i = 0; i < this.state.menus.length; i++) {
+            const menu = this.state.menus[i];
+            const matchedMenu = menu.children.find((child) => child.match ? child.match.test(url) : url == child.url);
+            if (matchedMenu) {
+                this.setState({
+                    openKeys: [menu.name],
+                    current: matchedMenu.code + ''
+                });
+                break;
+            }
+        }
+    }
 
     handleClick = (menu) => {
         this.setState({
@@ -84,7 +137,12 @@ class Sider extends React.Component {
                     <Menu
                         theme={this.state.theme}
                         style={{ width: '100%', height: '100%', overflow: 'auto' }}
-                        defaultOpenKeys={['通知中心', '页面中心']}
+                        openKeys={this.state.openKeys}
+                        onOpenChange={(openKeys)=>{
+                            this.setState({
+                                openKeys
+                            });
+                        }}
                         selectedKeys={[this.state.current]}
                         mode="inline"
                     >

@@ -146,6 +146,8 @@ module.exports = function (webpackEnv) {
       require.resolve('react-dev-utils/webpackHotDevClient'),
       require.resolve('./polyfills'),
       require.resolve('snowball'),
+      require.resolve('nuclear'),
+      require.resolve('sn-cornerstone'),
       // Finally, this is your app's code:
       paths.appIndexJs,
       // We include the app code last so that if there is a runtime error during
@@ -314,21 +316,11 @@ module.exports = function (webpackEnv) {
               options: {
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
-
               },
               loader: require.resolve('eslint-loader'),
             },
           ],
           include: paths.appSrc,
-        },
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          include: paths.appSrc,
-          loader: require.resolve('snowball/webpack-extentions/snowball-loader'),
-          options: {
-            modules: {
-            },
-          },
         },
         {
           // "oneOf" will traverse all following loaders until one will
@@ -518,6 +510,21 @@ module.exports = function (webpackEnv) {
             // Make sure to add the new loader(s) before the "file" loader.
           ],
         },
+        {
+          test: /\.(js|mjs|jsx|ts|tsx)$/,
+          include: [
+            paths.appSrc,
+          ],
+          loader: require.resolve('snowball/webpack-extentions/snowball-loader'),
+          options: {
+            modules: {
+              nuclear: 'window.Nuclear',
+              antd: 'window.Nuclear.antd',
+              moment: 'window.Nuclear.moment',
+              'sn-cornerstone': 'window.Cornerstone',
+            },
+          },
+        },
       ],
     },
     plugins: [
@@ -548,6 +555,7 @@ module.exports = function (webpackEnv) {
         )
       ),
       new HtmlPreRenderWebpackPlugin({
+        mobile: false,
         appSrc: paths.appSrc,
         skeleton: {},
         preloader: require.resolve('snowball/preloader/preloader.tpl.js')

@@ -8,7 +8,7 @@ export default function Home({ onButtonClick, toSignIn }) {
             <br />
             <Upload
                 name={'image'}
-                action={'http://localhost:7001/admin/testUpload'}
+                action={'http://localhost:7004/file/upload'}
             >
                 Upload
             </Upload>
