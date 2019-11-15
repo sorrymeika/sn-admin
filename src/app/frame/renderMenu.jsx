@@ -86,8 +86,12 @@ const MENU_LIST = [{
         url: '/trade/warehouse'
     }, {
         code: 10031010,
-        name: '库存管理',
-        url: '/trade/stock'
+        name: '订单出库',
+        url: '/trade/orderStockOut'
+    }, {
+        code: 10031011,
+        name: '出库单管理',
+        url: '/trade/stockOutList'
     }]
 }];
 
@@ -138,7 +142,7 @@ class Sider extends React.Component {
                         theme={this.state.theme}
                         style={{ width: '100%', height: '100%', overflow: 'auto' }}
                         openKeys={this.state.openKeys}
-                        onOpenChange={(openKeys)=>{
+                        onOpenChange={(openKeys) => {
                             this.setState({
                                 openKeys
                             });

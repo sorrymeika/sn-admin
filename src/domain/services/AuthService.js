@@ -8,7 +8,7 @@ export type SignInParams = {
 
 class AuthService extends Service {
     signIn({ account, password, app }: SignInParams) {
-        return this.ctx.server.auth.post('/auth/login', { account, password, app });
+        return this.app.server.auth.post('/auth/login', { account, password, app });
     }
 
     storeAccountId(accountId) {
