@@ -4,9 +4,9 @@
         "rm -rf ./node_modules/nuclear",
         "rm -rf ./node_modules/sn-cornerstone",
         "npm install",
-        "ln -s /data/static/snowball ./node_modules/snowball",
-        "ln -s /data/static/nuclear ./node_modules/nuclear",
-        "ln -s /data/static/sn-cornerstone ./node_modules/sn-cornerstone",
+        "ln -s /data/static/snowball/src ./node_modules/snowball",
+        "ln -s /data/static/nuclear/src ./node_modules/nuclear",
+        "ln -s /data/static/sn-cornerstone/src ./node_modules/sn-cornerstone",
         "npm run build"
     ],
     "autoConfig": [
