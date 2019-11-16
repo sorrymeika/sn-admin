@@ -16,11 +16,11 @@ class SignInController {
     }
 
     onInit() {
-        this.ctx.frame.hide();
+        this.app.frame.hide();
     }
 
     onDestroy() {
-        this.ctx.frame.show();
+        this.app.frame.show();
     }
 }
 
