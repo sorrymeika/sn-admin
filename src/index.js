@@ -22,19 +22,19 @@ const projects = {
 };
 
 const authServer = new Server({
-    baseUrl: '/auth_server'
+    baseUrl: env.API_URL + '/auth_server'
 });
 
 const marketServer = new Server({
-    baseUrl: '/market_server'
+    baseUrl: env.API_URL + '/market_server'
 });
 
 const tradeServer = new Server({
-    baseUrl: '/trade_server'
+    baseUrl: env.API_URL + '/trade_server'
 });
 
 const sellerServer = new Server({
-    baseUrl: '/seller_server'
+    baseUrl: env.API_URL + '/seller_server'
 });
 
 const frame = renderFrame({

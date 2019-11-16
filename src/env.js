@@ -6,6 +6,7 @@ export const PROJECTS = {
 
 let IMAGE_UPLOAD_URL = process.env.REACT_APP_IMAGE_UPLOAD_URL;
 let SFS_URL = process.env.REACT_APP_SFS_URL;
+let API_URL = process.env.REACT_APP_API_URL;
 
 if (process.env.NODE_ENV === 'development') {
     if (/^localhost|\d+\.\d+$/.test(location.hostname)) {
@@ -20,5 +21,6 @@ if (process.env.NODE_ENV === 'development') {
 
 export {
     IMAGE_UPLOAD_URL,
-    SFS_URL
+    SFS_URL,
+    API_URL
 };
