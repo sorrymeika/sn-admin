@@ -10,7 +10,7 @@ const MENU_LIST = [{
     children: [{
         code: 1000,
         name: '审批管理',
-        url: '/sign-in'
+        url: '/coming'
     }]
 }, {
     name: '页面中心',
@@ -55,7 +55,8 @@ const MENU_LIST = [{
     children: [{
         code: 10031000,
         name: '优惠券管理',
-        url: '/sale/coupon'
+        // url: '/sale/coupon',
+        url: '/coming'
     }]
 }, {
     name: '订单中心',
@@ -71,11 +72,13 @@ const MENU_LIST = [{
     children: [{
         code: 10091010,
         name: '商户管理',
-        url: '/seller/list'
+        // url: '/seller/list',
+        url: '/coming'
     }, {
         code: 10091020,
         name: 'O2O门店管理',
-        url: '/seller/o2o-shops'
+        // url: '/seller/o2o-shops',
+        url: '/coming'
     }]
 }, {
     name: '库存中心',

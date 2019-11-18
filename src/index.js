@@ -51,7 +51,7 @@ class UserService {
 
 Page.extentions.react({
     Provider: ({ children }) => {
-        return <LocaleProvider locale={zhCN.default}>{children}</LocaleProvider>;
+        return <LocaleProvider locale={zhCN}>{children}</LocaleProvider>;
     }
 });
 
