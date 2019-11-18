@@ -45,6 +45,10 @@ const MENU_LIST = [{
         name: '品牌管理',
         url: '/trade/brand'
     }, {
+        code: 10001040,
+        name: '选品规则管理',
+        url: '/trade/formula'
+    }, {
         code: 10001030,
         name: '前台类目管理',
         url: '/trade/fdcategory'
