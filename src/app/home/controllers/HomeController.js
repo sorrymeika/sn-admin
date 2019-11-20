@@ -8,8 +8,6 @@ class HomeController {
 
     onInit() {
         // fetch remote data here!
-
-        console.log(this.ctx.service.user);
     }
 
     @injectable

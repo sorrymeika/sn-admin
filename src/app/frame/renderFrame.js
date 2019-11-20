@@ -1,4 +1,4 @@
-import { renderHeader } from "./renderHeader";
+import renderHeader from "./renderHeader";
 import { renderMenu } from "./renderMenu";
 
 export function renderFrame({

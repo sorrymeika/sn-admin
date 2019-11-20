@@ -101,6 +101,7 @@
             }
         ],
         "default-case": "off",
-        "flowtype/no-types-missing-file-annotation": "off"
+        "flowtype/no-types-missing-file-annotation": "off",
+        "jsx-a11y/anchor-is-valid": "off"
     }
 }

@@ -9,9 +9,6 @@ function SignIn({ signInService }) {
                 <NCTitle>登录</NCTitle>
                 <LoginForm
                     onSubmit={signInService.onSignIn.emit}
-                    onTest={
-                        () => alert(1)
-                    }
                 ></LoginForm>
             </NCCard>
         </NCMain>

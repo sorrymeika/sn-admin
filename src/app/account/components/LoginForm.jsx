@@ -1,12 +1,13 @@
 import React from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 
 class LoginForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
+            if (err) {
+                message.error('请正确填写用户名和密码');
+                return;
             }
             this.props.onSubmit(values);
         });
@@ -28,7 +29,7 @@ class LoginForm extends React.Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('password', {
-                        rules: [{ required: true, message: '请输入用户名密码!' }],
+                        rules: [{ required: true, message: '请输入密码!' }],
                     })(
                         <Input
                             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}

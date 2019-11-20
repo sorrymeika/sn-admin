@@ -4,7 +4,7 @@ import { message } from "antd";
 class SignInService extends Service {
     onSignIn = this.ctx.createEvent();
 
-    constructor({ authService }) {
+    constructor(authService) {
         super();
 
         this.authService = authService;

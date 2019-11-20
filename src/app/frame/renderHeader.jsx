@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Icon } from 'antd';
+import { inject } from 'snowball/app';
 
-class Header extends React.Component {
-    state = {
-        current: '1',
+@inject(({ app }) => {
+    return {
+        account: app.service.user.account
     };
-
+})
+class Header extends React.Component {
     render() {
-        const { onMenuClick } = this.props;
+        const { onMenuClick, account } = this.props;
+
         return (
             <>
                 <div className="fx_1 pl_l">
@@ -18,7 +21,20 @@ class Header extends React.Component {
                     ></Icon>
                 </div>
                 <div className="pr_l flex">
-                    <span className="fs_s mr_m">系统管理员</span>
+                    <div className="fs_s mr_m">
+                        {
+                            !account
+                                ? (
+                                    <a href="#/sign-in" style={{ color: '#fff' }}>[登录]</a>
+                                )
+                                : (
+                                    <>
+                                        <span className="mr_s">{account.role == 1 ? '超级管理员' : (account.name || '管理员')}</span>
+                                        <a href="#/sign-in" style={{ color: '#fff' }}>[注销]</a>
+                                    </>
+                                )
+                        }
+                    </div>
                     <Icon type="setting"></Icon>
                 </div>
             </>
@@ -46,4 +62,4 @@ function renderHeader(props, container) {
     return header;
 }
 
-export { renderHeader };
+export default renderHeader;

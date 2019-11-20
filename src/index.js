@@ -8,6 +8,7 @@ import "./sass/style.scss";
 import router from "./app/router";
 import * as projectEnv from "./env";
 import { renderFrame } from "./app/frame/renderFrame";
+import UserService from "./shared/services/UserService";
 
 const env = {
     ...mainEnv,
@@ -37,31 +38,18 @@ const sellerServer = new Server({
     baseUrl: env.API_URL + '/seller_server'
 });
 
-const frame = renderFrame({
-    header: document.getElementById('header'),
-    menu: document.getElementById('menu')
-});
-
-window.SNOWBALL_MAIN_APP = {
-    env
-};
-
-class UserService {
-}
-
 Page.extentions.react({
     Provider: ({ children }) => {
         return <LocaleProvider locale={zhCN}>{children}</LocaleProvider>;
     }
 });
 
-createApplication({
+window.SNOWBALL_MAIN_APP = createApplication({
     projects,
     routes: router,
     autoStart: true,
     extend() {
         return {
-            frame,
             env,
             sfs: new Sfs(process.env.REACT_APP_SFS_URL),
             server: {
@@ -70,15 +58,47 @@ createApplication({
                 trade: tradeServer,
                 seller: sellerServer
             },
-            services: [UserService]
+            services: {
+                user: UserService
+            }
         };
     },
     options: {
         disableTransition: true
     }
-}, document.getElementById('root'), () => {
-    if (!(/^(#)?\/sign-in/.test(location.hash)) && !/[&?]frame=0/.test(location.search)) {
+}, document.getElementById('root'), (app) => {
+    const isSignInUrl = (url) => /^(#)?\/sign-in/.test(url);
+    const shouldShowFrame = (url) => !isSignInUrl(url) && !/[&?]frame=0/.test(location.search);
+
+    const frame = renderFrame({
+        header: document.getElementById('header'),
+        menu: document.getElementById('menu')
+    });
+
+    if (shouldShowFrame(location.hash)) {
         frame.show();
     }
+
+    Page.extentions.lifecycle({
+        initialize() {
+            this.on('beforeshow', () => {
+                if (shouldShowFrame(this.ctx.location.path)) {
+                    frame.show();
+                } else {
+                    frame.hide();
+                }
+            });
+        }
+    });
+
+    if (!isSignInUrl(location.hash)) {
+        app.service.user.loadMyAccount()
+            .catch(e => {
+                if (e.code == 10002) {
+                    app.navigation.forward('/sign-in');
+                }
+            });
+    }
+
     console.log('application start!');
 });
