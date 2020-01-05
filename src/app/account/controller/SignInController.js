@@ -1,16 +1,15 @@
-import { controller, injectable } from 'snowball/app';
-import { SignInService } from '../services/SignInService';
+import { controller, autowired } from 'snowball/app';
 import SignIn from '../containers/SignIn';
+import { SignInConfiguration } from '../configuration';
+import { SignInService } from '../services/SignInService';
 
-@controller(SignIn)
+@controller({
+    component: SignIn,
+    configuration: SignInConfiguration
+})
 class SignInController {
-    @injectable signInService;
-
-    constructor() {
-        this.signInService = new SignInService(
-            this.app.service.user
-        );
-    }
+    @autowired
+    signInService: SignInService;
 }
 
 export default SignInController;

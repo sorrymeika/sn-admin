@@ -1,9 +1,10 @@
 import renderHeader from "./renderHeader";
-import { renderMenu } from "./renderMenu";
+import renderMenu from "./renderMenu";
 
 export function renderFrame({
     header: headerEl,
-    menu: menuEl
+    menu: menuEl,
+    app
 }) {
     const header = renderHeader({
         onMenuClick() {
@@ -11,8 +12,8 @@ export function renderFrame({
                 ? menu.hide()
                 : menu.show();
         }
-    }, headerEl);
-    const menu = renderMenu({}, menuEl);
+    }, headerEl, app);
+    const menu = renderMenu({}, menuEl, app);
 
     return {
         header,

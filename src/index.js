@@ -2,13 +2,12 @@ import React from "react";
 import { LocaleProvider } from "antd";
 import zhCN from 'antd/es/locale-provider/zh_CN';
 import { env as mainEnv } from "snowball";
-import { createApplication, Page } from "snowball/app";
-import { Server, Sfs } from "sn-cornerstone";
+import { createApplication, Page, autowired } from "snowball/app";
+import { AppConfiguration, Sfs } from "sn-cornerstone";
 import "./sass/style.scss";
 import router from "./app/router";
 import * as projectEnv from "./env";
-import { renderFrame } from "./app/frame/renderFrame";
-import UserService from "./shared/services/UserService";
+import { renderFrame } from "./shared/frame/renderFrame";
 
 const env = {
     ...mainEnv,
@@ -22,22 +21,6 @@ const projects = {
     "^/seller/": PROJECTS.SELLER
 };
 
-const authServer = new Server({
-    baseUrl: env.API_URL + '/auth_server'
-});
-
-const marketServer = new Server({
-    baseUrl: env.API_URL + '/market_server'
-});
-
-const tradeServer = new Server({
-    baseUrl: env.API_URL + '/trade_server'
-});
-
-const sellerServer = new Server({
-    baseUrl: env.API_URL + '/seller_server'
-});
-
 Page.extentions.react({
     Provider: ({ children }) => {
         return <LocaleProvider locale={zhCN}>{children}</LocaleProvider>;
@@ -47,20 +30,11 @@ Page.extentions.react({
 window.SNOWBALL_MAIN_APP = createApplication({
     projects,
     routes: router,
-    autoStart: true,
+    configuration: AppConfiguration,
     extend() {
         return {
             env,
-            sfs: new Sfs(process.env.REACT_APP_SFS_URL),
-            server: {
-                auth: authServer,
-                market: marketServer,
-                trade: tradeServer,
-                seller: sellerServer
-            },
-            services: {
-                user: UserService
-            }
+            sfs: new Sfs(process.env.REACT_APP_SFS_URL)
         };
     },
     options: {
@@ -72,7 +46,8 @@ window.SNOWBALL_MAIN_APP = createApplication({
 
     const frame = renderFrame({
         header: document.getElementById('header'),
-        menu: document.getElementById('menu')
+        menu: document.getElementById('menu'),
+        app
     });
 
     if (shouldShowFrame(location.hash)) {
@@ -92,7 +67,8 @@ window.SNOWBALL_MAIN_APP = createApplication({
     });
 
     if (!isSignInUrl(location.hash)) {
-        app.service.user.loadMyAccount()
+        const userService = autowired('userService');
+        userService.loadMyAccount()
             .catch(e => {
                 if (e.code == 10002) {
                     app.navigation.forward('/sign-in');

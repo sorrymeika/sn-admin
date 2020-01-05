@@ -1,17 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Icon } from 'antd';
-import { inject } from 'snowball/app';
+import { inject, autowired } from 'snowball/app';
 
-@inject(({ app }) => {
+@inject(() => {
+    const userService = autowired('userService');
     return {
-        account: app.service.user.account
+        account: userService.account
     };
 })
 class Header extends React.Component {
     render() {
         const { onMenuClick, account } = this.props;
 
+        console.log('asfsf');
         return (
             <>
                 <div className="fx_1 pl_l">

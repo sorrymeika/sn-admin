@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, message } from 'antd';
+import { inject, autowired } from 'snowball/app';
 
 const { SubMenu } = Menu;
 
@@ -23,6 +24,11 @@ const MENU_LIST = [{
         code: 10011001,
         name: '首页装修',
         url: '/pagecenter/home',
+        target: '_blank'
+    }, {
+        code: 10011002,
+        name: '店铺装修',
+        url: '/pagecenter/shop/{GLOBAL_SELLER_ID}',
         target: '_blank'
     }]
 }, {
@@ -51,6 +57,10 @@ const MENU_LIST = [{
     }, {
         code: 10001030,
         name: '前台类目管理',
+        url: '/trade/fdcategory'
+    }, {
+        code: 10001050,
+        name: '店铺类目管理',
         url: '/trade/fdcategory'
     }]
 }, {
@@ -102,6 +112,12 @@ const MENU_LIST = [{
     }]
 }];
 
+@inject(({ app }) => {
+    const sellerPickerService = autowired('sellerPickerService');
+    return {
+        sellerPickerService
+    };
+})
 class Sider extends React.Component {
     state = {
         theme: 'dark',
@@ -129,16 +145,36 @@ class Sider extends React.Component {
         this.setState({
             current: menu.code + '',
         });
-        if (menu.url) {
-            if (menu.target) {
-                window.open(/^https?:\/\//.test(menu.url)
-                    ? menu.url
-                    : ('?frame=0#' + menu.url), menu.target);
+        let { url, target } = menu;
+        if (url) {
+            if (/\{GLOBAL_SELLER_ID\}/.test(url)) {
+                this.props.sellerPickerService
+                    .show({
+                        onSelect: (seller) => {
+                            this.openUrl(url.replace('{GLOBAL_SELLER_ID}', seller.id), target);
+                        },
+                        onCancel: () => {
+                            message.warn('必须选择一个商户，否则无法继续操作！');
+                        },
+                        onError: (e) => {
+                            message.error(e.message);
+                        }
+                    });
             } else {
-                location.hash = menu.url;
+                this.openUrl(url, target);
             }
         }
     };
+
+    openUrl(url, target) {
+        if (target) {
+            window.open(/^https?:\/\//.test(url)
+                ? url
+                : ('?frame=0#' + url), target);
+        } else {
+            location.hash = url;
+        }
+    }
 
     render() {
         return (
@@ -226,4 +262,4 @@ function renderMenu(props, container) {
     return menu;
 }
 
-export { renderMenu };
+export default renderMenu;

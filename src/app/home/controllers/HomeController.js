@@ -1,4 +1,4 @@
-import { controller, injectable } from "snowball/app";
+import { controller } from "snowball/app";
 import Home from "../containers/Home";
 
 @controller(Home)
@@ -10,12 +10,10 @@ class HomeController {
         // fetch remote data here!
     }
 
-    @injectable
     onButtonClick() {
         this.ctx.navigation.forward('/test');
     }
 
-    @injectable
     toSignIn() {
         this.ctx.navigation.transitionTo('/sign-in');
     }

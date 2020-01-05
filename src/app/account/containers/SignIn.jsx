@@ -3,6 +3,7 @@ import { NCMain, NCCard, NCTitle } from 'nuclear';
 import { LoginForm } from '../components/LoginForm';
 
 function SignIn({ signInService }) {
+    console.log(signInService.onSignIn);
     return (
         <NCMain>
             <NCCard style={{ margin: '50px auto', width: 500, padding: "20px 50px 50px 50px" }}>
