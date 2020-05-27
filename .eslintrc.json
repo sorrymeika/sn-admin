@@ -4,6 +4,7 @@
         "plugin:flowtype/recommended"
     ],
     "rules": {
+        "no-template-curly-in-string": "off",
         "no-unused-vars": "warn",
         "no-restricted-globals": "off",
         "semi": "error",

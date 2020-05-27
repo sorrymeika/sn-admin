@@ -1,17 +1,14 @@
-import { Service, autowired } from "snowball/app";
+import { autowired, emitter, ViewModel } from "snowball/app";
 import { message } from "antd";
-import UserService from "sn-cornerstone/services/UserService";
+import { IUserService } from "../../../shared/types";
 
-class SignInService extends Service {
-    onSignIn = this.ctx.createEmitter();
-
+export default class SignInViewModel extends ViewModel {
     @autowired
-    _userService: UserService;
+    _userService: IUserService;
 
-    constructor() {
-        super();
-
-        this.onSignIn((data) => this.signIn(data));
+    @emitter
+    onSignIn(data) {
+        this.signIn(data);
     }
 
     async signIn({ account, password }) {
@@ -19,7 +16,7 @@ class SignInService extends Service {
             const res = await this._userService.signIn({
                 account,
                 password,
-                app: 1
+                appId: 1000
             });
             this._userService.storeAccountId(res.accountId);
             this._userService.loadMyAccount();
@@ -29,5 +26,3 @@ class SignInService extends Service {
         }
     }
 }
-
-export { SignInService };

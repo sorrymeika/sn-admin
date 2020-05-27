@@ -2,7 +2,7 @@ import React from "react";
 import { LocaleProvider } from "antd";
 import zhCN from 'antd/es/locale-provider/zh_CN';
 import { env as mainEnv } from "snowball";
-import { createApplication, Page, autowired } from "snowball/app";
+import { createApplication, Page } from "snowball/app";
 import { AppConfiguration, Sfs } from "sn-cornerstone";
 import "./sass/style.scss";
 import router from "./app/router";
@@ -67,10 +67,10 @@ window.SNOWBALL_MAIN_APP = createApplication({
     });
 
     if (!isSignInUrl(location.hash)) {
-        const userService = autowired('userService');
+        const userService = app.autowired('userService');
         userService.loadMyAccount()
             .catch(e => {
-                if (e.code == 10002) {
+                if (e.code == -360) {
                     app.navigation.forward('/sign-in');
                 }
             });

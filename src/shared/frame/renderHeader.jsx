@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Icon } from 'antd';
-import { inject, autowired } from 'snowball/app';
+import { inject, autowired, AppContextProvider } from 'snowball/app';
 
 @inject(() => {
     const userService = autowired('userService');
@@ -13,7 +13,6 @@ class Header extends React.Component {
     render() {
         const { onMenuClick, account } = this.props;
 
-        console.log('asfsf');
         return (
             <>
                 <div className="fx_1 pl_l">
@@ -46,7 +45,10 @@ class Header extends React.Component {
 
 function renderHeader(props, container) {
     container.classList.add('nc-app-header');
-    ReactDOM.render(<Header {...props}></Header>, container);
+    ReactDOM.render(
+        <AppContextProvider>
+            <Header {...props}></Header>
+        </AppContextProvider>, container);
 
     const header = {
         visible: false,

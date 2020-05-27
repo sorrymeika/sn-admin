@@ -1,8 +1,8 @@
 import { configuration } from "snowball/app";
-import { SignInService } from "./services/SignInService";
+import SignInViewModel from "./view-models/SignInViewModel";
 
 export const SignInConfiguration = configuration({
     modules: {
-        signInService: SignInService
+        signInViewModel: SignInViewModel
     }
 });

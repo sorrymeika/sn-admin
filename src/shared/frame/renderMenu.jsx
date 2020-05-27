@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Menu, Icon, message } from 'antd';
-import { inject, autowired } from 'snowball/app';
+import { inject, autowired, AppContextProvider } from 'snowball/app';
 
 const { SubMenu } = Menu;
 
@@ -28,7 +28,7 @@ const MENU_LIST = [{
     }, {
         code: 10011002,
         name: '店铺装修',
-        url: '/pagecenter/shop/{GLOBAL_SELLER_ID}',
+        url: '/pagecenter/shop/${GLOBAL_SELLER_ID}',
         target: '_blank'
     }]
 }, {
@@ -102,6 +102,10 @@ const MENU_LIST = [{
         name: '仓库管理',
         url: '/trade/warehouse'
     }, {
+        code: 10031003,
+        name: '商品入库',
+        url: '/trade/stockIn'
+    }, {
         code: 10031010,
         name: '订单出库',
         url: '/trade/orderStockOut'
@@ -118,7 +122,7 @@ const MENU_LIST = [{
         sellerPickerService
     };
 })
-class Sider extends React.Component {
+class SiderMenu extends React.Component {
     state = {
         theme: 'dark',
         menus: MENU_LIST,
@@ -147,11 +151,11 @@ class Sider extends React.Component {
         });
         let { url, target } = menu;
         if (url) {
-            if (/\{GLOBAL_SELLER_ID\}/.test(url)) {
+            if (/\$\{GLOBAL_SELLER_ID\}/.test(url)) {
                 this.props.sellerPickerService
                     .show({
                         onSelect: (seller) => {
-                            this.openUrl(url.replace('{GLOBAL_SELLER_ID}', seller.id), target);
+                            this.openUrl(url.replace('${GLOBAL_SELLER_ID}', seller.id), target);
                         },
                         onCancel: () => {
                             message.warn('必须选择一个商户，否则无法继续操作！');
@@ -180,10 +184,11 @@ class Sider extends React.Component {
         return (
             <>
                 <div className="nc-app-header-logo flex jc_c"><p style={{ marginRight: 20 }}><Icon type="bar-chart" /> 后台管理系统</p></div>
-                <div className="fx_1 h_1x">
+                <div className="fx_1 dp_f fd_c of_h">
                     <Menu
                         theme={this.state.theme}
-                        style={{ width: '100%', height: '100%', overflow: 'auto' }}
+                        className="ai_s"
+                        style={{ overflow: 'auto' }}
                         openKeys={this.state.openKeys}
                         onOpenChange={(openKeys) => {
                             this.setState({
@@ -242,7 +247,13 @@ class Sider extends React.Component {
 
 function renderMenu(props, container) {
     container.classList.add('nc-app-sider');
-    ReactDOM.render(<Sider {...props}></Sider>, container);
+    container.classList.add('flex');
+    ReactDOM.render(
+        <AppContextProvider>
+            <SiderMenu {...props}></SiderMenu>
+        </AppContextProvider>,
+        container
+    );
 
     const menu = {
         visible: false,
